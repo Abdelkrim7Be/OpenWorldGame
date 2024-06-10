@@ -23,9 +23,9 @@ public class Game extends Canvas implements Runnable {
 	private Thread thread;
 	private JFrame frame;
 	private boolean running = false;
-	
+
 	private Screen screen;
-	
+
 	//our final view and image of our application
 	private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	//This will give us a rectangular array of pixels that we can write data to
@@ -36,8 +36,8 @@ public class Game extends Canvas implements Runnable {
 	public Game() {
 		Dimension size = new Dimension(width * scale, height * scale);
 		setPreferredSize(size);
-		
-		screen = new Screen(this.width, this.height);
+
+		screen = new Screen(width, height);
 
 		frame = new JFrame();
 	}
@@ -80,12 +80,20 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
+		screen.clear();
+		//Because we have a while loop running, the screen will be updated alwayys
+		screen.render();
+
+		for (int i = 0; i < pixels.length; i++) {
+			pixels[i] = screen.pixels[i];
+		}
+
 		//Apply the Buffer to a graphic subject
 		Graphics g = bs.getDrawGraphics(); //Link between the graphics and the buffer
 		//---------------------------------------------------------------------------
-		//g.setColor(new Color(0,0,0));
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		//It is indispensable to put drawImage after setColor and fillRect in order to prevent the black color 
+		//from rendering after the pink got rendered
+		g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 		//---------------------------------------------------------------------------
 		g.dispose();//At the end, we remove the graphics
 		//Show the next buffer that has being calculated
