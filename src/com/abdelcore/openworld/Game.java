@@ -19,6 +19,7 @@ public class Game extends Canvas implements Runnable {
 	public static int width = 300;
 	public static int height = width / 16 * 9; // 16:9 aspect ratio
 	public static int scale = 3;
+	public static String title = "OpenWorld";
 
 	private Thread thread;
 	private JFrame frame;
@@ -66,7 +67,7 @@ public class Game extends Canvas implements Runnable {
 		//This means each frame should take approximately 16.67 milliseconds (1/60th of a second).
 		final double ns = 1000000000.0 / 60.0;//60 times a second
 		//My one second timer
-		long timer = System.currentTimeMillis();  //returns the current time in milliseconds
+		long timer = System.currentTimeMillis(); //returns the current time in milliseconds
 		//keep track of the accumulated time.
 		double delta = 0;
 		//Count how much time our computer could render in a second
@@ -80,7 +81,7 @@ public class Game extends Canvas implements Runnable {
 			//Checks if delta has accumulated enough time to represent at least one frame(1/60th of a second)
 			delta += (now - lastTime) / ns; //ex : 1.xxxxxx  or 0.xxxxxxx or  2.xxxxxx ....
 			lastTime = now;
-			while(delta >= 1) {
+			while (delta >= 1) {
 				update();//Called based on our specifications and calculations
 				++updates;
 				delta--;
@@ -88,20 +89,23 @@ public class Game extends Canvas implements Runnable {
 			render();//Called as many seconds as we possibly can 
 			//Every Iteration , we will increment the 'frames variable
 			++frames;
-			
+
 			// so it is basically timer = 56 seconds , timer = 57 seconds ....
 			if (System.currentTimeMillis() - timer > 1000) { //1000 miliseconds = 1 second
 				timer += 1000;
 				System.out.println(updates + " ups, " + frames + " fps");
+				//So i could see the ups and fps updates next to the title  in the top left header
+				frame.setTitle(title + " | " + updates + " ups, " + frames + " fps");
 				updates = 0;
 				frames = 0;
 			}
 			/** Example : 
-			 *  59 ups, 131 fps
-				119 ups, 285 fps
-				179 ups, 499 fps
-				239 ups, 724 fps
-				299 ups, 940 fps*/ 
+			 *  60 ups, 143 fps
+				60 ups, 230 fps
+				60 ups, 230 fps
+				60 ups, 232 fps
+				60 ups, 225 fps
+				*/
 		}
 		stop();
 	}
