@@ -22,7 +22,7 @@ public class Screen {
 	}
 
 	public void render() {
-		//Controlling the timing
+		//Controlling the timing (speeding or slowing)
 		counter++;
 		if (counter % 10 == 0) xtime++;
 		if (counter % 80 == 0) ytime++;
