@@ -5,7 +5,7 @@ public class Screen {
 	private int width, height;
 	public int[] pixels;
 
-	int xtime = 0, ytime = 0;
+	int xtime = 110, ytime = 50;
 	int counter = 0;
 
 	public Screen(int width, int height) {
@@ -24,13 +24,15 @@ public class Screen {
 	public void render() {
 		//Controlling the timing (speeding or slowing)
 		counter++;
-		if (counter % 10 == 0) xtime++;
-		if (counter % 80 == 0) ytime++;
+		if (counter % 10 == 0) xtime--;
+		if (counter % 80 == 0) ytime--;
 
 		for (int y = 0; y < height; y++) {
-			if(ytime >= height) break;
+			if(ytime < 0 || ytime >= height) break;
+			//control that the pixel don't exceed the limits of the border
 			for (int x = 0; x < width; x++) {
-				if(xtime >= width) break;
+				//control that the pixel don't exceed the limits of the border
+				if(xtime < 0 || xtime >= width) break;
 				pixels[xtime + ytime * width] = 0xff00ff;
 			}
 		}

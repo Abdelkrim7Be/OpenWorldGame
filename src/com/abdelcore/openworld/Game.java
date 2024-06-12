@@ -60,11 +60,50 @@ public class Game extends Canvas implements Runnable {
 
 	@Override
 	public void run() {
+		//The updates and frames vars should be set to 0 after every second , because we calculate them 
+		//within one second
+		long lastTime = System.nanoTime();
+		//This means each frame should take approximately 16.67 milliseconds (1/60th of a second).
+		final double ns = 1000000000.0 / 60.0;//60 times a second
+		//My one second timer
+		long timer = System.currentTimeMillis();  //returns the current time in milliseconds
+		//keep track of the accumulated time.
+		double delta = 0;
+		//Count how much time our computer could render in a second
+		int frames = 0;
+		//Count how many times the update() method gets called every second
+		int updates = 0;
 		while (running) {
-			//System.out.println("Running...");
-			update();//Called based on our specifications and calculations
+			long now = System.nanoTime();
+			//To calculate basically how much time we needed to render 1 frame, so the speed i guess is : 
+			//delta frame per second
+			//Checks if delta has accumulated enough time to represent at least one frame(1/60th of a second)
+			delta += (now - lastTime) / ns; //ex : 1.xxxxxx  or 0.xxxxxxx or  2.xxxxxx ....
+			lastTime = now;
+			while(delta >= 1) {
+				update();//Called based on our specifications and calculations
+				++updates;
+				delta--;
+			}
 			render();//Called as many seconds as we possibly can 
+			//Every Iteration , we will increment the 'frames variable
+			++frames;
+			
+			// so it is basically timer = 56 seconds , timer = 57 seconds ....
+			if (System.currentTimeMillis() - timer > 1000) { //1000 miliseconds = 1 second
+				timer += 1000;
+				System.out.println(updates + " ups, " + frames + " fps");
+				updates = 0;
+				frames = 0;
+			}
+			/** Example : 
+			 *  59 ups, 131 fps
+				119 ups, 285 fps
+				179 ups, 499 fps
+				239 ups, 724 fps
+				299 ups, 940 fps*/ 
 		}
+		stop();
 	}
 
 	public void update() {
