@@ -10,6 +10,7 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import com.abdelcore.openworld.graphics.Screen;
+import com.abdelcore.openworld.input.Keyboard;
 
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -24,6 +25,7 @@ public class Game extends Canvas implements Runnable {
 
 	private Thread thread;
 	private JFrame frame;
+	private Keyboard key;
 	private boolean running = false;
 
 	private Screen screen;
@@ -42,6 +44,10 @@ public class Game extends Canvas implements Runnable {
 		screen = new Screen(width, height);
 
 		frame = new JFrame();
+		
+		key = new Keyboard();
+		
+		addKeyListener(key); //IMPORTANT TO ADD
 	}
 
 	//Why we did 'synchronized' here is to prevent overlaps and crushing our game
@@ -112,6 +118,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public void update() {
+		key.update();
 		x++;
 		y++;
 	}

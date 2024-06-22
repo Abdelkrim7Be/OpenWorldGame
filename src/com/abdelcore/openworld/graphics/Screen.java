@@ -46,7 +46,7 @@ public class Screen {
 				//break;
 				//MAP_SIZE is the map width
 				// >> makes it optimized and faster (specially in this nested loops)
-				//when x >> 4 becomes bigger than 63, it will return to 0 again
+				//when x >> 4 becomes bigger than MAP_SIZE_MASK, it will return to 0 again
 				int tileIndex = ((xx >> 4) & MAP_SIZE_MASK)+ ((yy >> 4) & MAP_SIZE_MASK) * MAP_SIZE_MASK;//find the tile that is needed to be rendered at a particular position
 				//(x >> 4) (x is shifted twice to 4 <======> (y / 16))
 				pixels[x + y * width] = tiles[tileIndex];
