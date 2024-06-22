@@ -6,9 +6,12 @@ public class Screen {
 
 	private int width, height;
 	public int[] pixels;
+	public final int MAP_SIZE = 8;
+	public final int MAP_SIZE_MASK = MAP_SIZE - 1;
+	
 
 	//Our tile size is  16x16 (decided)
-	public int[] tiles = new int[64 * 64];
+	public int[] tiles = new int[MAP_SIZE * MAP_SIZE];
 
 	private Random random = new Random();
 
@@ -18,8 +21,9 @@ public class Screen {
 		//I created an integer for each pixel 
 		pixels = new int[width * height]; //50400
 
-		for (int i = 0; i < 64 * 64; i++) {
+		for (int i = 0; i < MAP_SIZE * MAP_SIZE; i++) {
 			tiles[i] = random.nextInt(0xff00ff);
+			tiles[0] = 0;
 		}
 	}
 
@@ -29,18 +33,21 @@ public class Screen {
 		}
 	}
 
-	public void render() {
+	public void render(int xOffset, int yOffset) {
 		for (int y = 0; y < height; y++) {
-			if (y < 0 || y >= height)
-				break;
+			int yy = y + yOffset;
+			//if (yy < 0 || yy >= height)
+			//break;
 			//control that the pixel don't exceed the limits of the border
 			for (int x = 0; x < width; x++) {
+				int xx = x + yOffset;
 				//control that the pixel don't exceed the limits of the border
-				if (x < 0 || x >= width)
-					break;
-				//64 is the map width
-				// >> makes it optimazed and faster (specially in this nested loops)
-				int tileIndex = (x >> 4) + (y >> 4) * 64;//find the tile that is needed to be rendered at a particular position
+				//if (xx < 0 || xx >= width)
+				//break;
+				//MAP_SIZE is the map width
+				// >> makes it optimized and faster (specially in this nested loops)
+				//when x >> 4 becomes bigger than 63, it will return to 0 again
+				int tileIndex = ((xx >> 4) & MAP_SIZE_MASK)+ ((yy >> 4) & MAP_SIZE_MASK) * MAP_SIZE_MASK;//find the tile that is needed to be rendered at a particular position
 				//(x >> 4) (x is shifted twice to 4 <======> (y / 16))
 				pixels[x + y * width] = tiles[tileIndex];
 			}

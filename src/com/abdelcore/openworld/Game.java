@@ -20,6 +20,7 @@ public class Game extends Canvas implements Runnable {
 	public static int height = width / 16 * 9; // 16:9 aspect ratio
 	public static int scale = 3;
 	public static String title = "OpenWorld";
+	int x = 0, y = 0;
 
 	private Thread thread;
 	private JFrame frame;
@@ -111,7 +112,8 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public void update() {
-
+		x++;
+		y++;
 	}
 
 	//Handle rendering
@@ -124,8 +126,8 @@ public class Game extends Canvas implements Runnable {
 		}
 
 		screen.clear();
-		//Because we have a while loop running, the screen will be updated alwayys
-		screen.render();
+		//Because we have a while loop running, the screen will be updated always
+		screen.render(x,y);
 
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = screen.pixels[i];
