@@ -40,7 +40,7 @@ public class Screen {
 			//break;
 			//control that the pixel don't exceed the limits of the border
 			for (int x = 0; x < width; x++) {
-				int xx = x + yOffset;
+				int xx = x + xOffset;
 				//control that the pixel don't exceed the limits of the border
 				//if (xx < 0 || xx >= width)
 				//break;

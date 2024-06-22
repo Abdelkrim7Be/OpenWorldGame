@@ -12,12 +12,16 @@ public class Keyboard implements KeyListener {
 
 	//Every cycle, it will check if a particular key is pressed or released 
 	public void update() {
-		up = keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_Z]; //VK_UP :  key code for the "up arrow" key. and VK_W for the 'w' keyword 
+		up = keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_Z]; //VK_UP :  key code for the "up arrow" key. and VK_Z for the 'z' keyword 
 		down = keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S];
 		left = keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_Q];
 		right = keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D];
 		
-		System.out.println(up);
+		for(int i = 0 ; i < keys.length; i++) {
+			if (keys[i]) {
+				System.out.println("KEY: " + i);
+			}
+		}
 	}
 
 
