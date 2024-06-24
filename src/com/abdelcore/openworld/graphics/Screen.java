@@ -6,7 +6,7 @@ public class Screen {
 
 	private int width, height;
 	public int[] pixels;
-	public final int MAP_SIZE = 8;
+	public final int MAP_SIZE = 64;
 	public final int MAP_SIZE_MASK = MAP_SIZE - 1;
 	
 
@@ -47,7 +47,7 @@ public class Screen {
 				//MAP_SIZE is the map width
 				// >> makes it optimized and faster (specially in this nested loops)
 				//when x >> 4 becomes bigger than MAP_SIZE_MASK, it will return to 0 again
-				int tileIndex = ((xx >> 4) & MAP_SIZE_MASK)+ ((yy >> 4) & MAP_SIZE_MASK) * MAP_SIZE_MASK;//find the tile that is needed to be rendered at a particular position
+				int tileIndex = ((xx >> 16) & MAP_SIZE_MASK)+ ((yy >> 16) & MAP_SIZE_MASK) * MAP_SIZE_MASK;//find the tile that is needed to be rendered at a particular position
 				//(x >> 4) (x is shifted twice to 4 <======> (y / 16))
 				pixels[x + y * width] = tiles[tileIndex];
 			}
